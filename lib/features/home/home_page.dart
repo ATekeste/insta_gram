@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:insta_gram/features/auth/screens/login_page.dart';
-import 'package:insta_gram/features/state/auth/backend/authenticator.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:insta_gram/features/state/auth/providers/auth_state_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,17 +11,15 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Home'),
         actions: [
-          IconButton(
-            onPressed: () {
-              Authenticator().logOut();
-              // ignore: use_build_context_synchronously
-              Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (context) {
-                  return const LoginPage();
+          Consumer(
+            builder: (context, ref, child) {
+              return IconButton(
+                onPressed: () {
+                  ref.read(authStateProvider.notifier).logOut();
                 },
-              ));
+                icon: const Icon(Icons.logout),
+              );
             },
-            icon: const Icon(Icons.logout),
           ),
         ],
       ),

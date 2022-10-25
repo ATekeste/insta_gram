@@ -1,45 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:insta_gram/features/common/utility.dart';
-import 'package:insta_gram/features/home/home_page.dart';
-import 'package:insta_gram/features/state/auth/backend/authenticator.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class LoginPage extends StatelessWidget {
+import '../../state/auth/providers/auth_state_provider.dart';
+
+class LoginPage extends ConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            TextButton(
-              onPressed: () async {
-                final result = await Authenticator().loginWithGoogle();
-                result.log();
-
-                // ignore: use_build_context_synchronously
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const HomePage();
-                  },
-                ));
-              },
-              child: const Text('Sign in with Google'),
-            ),
-            TextButton(
-              onPressed: () async {
-                final result = await Authenticator().loginWithFacebook();
-                result.log();
-                // ignore: use_build_context_synchronously
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const HomePage();
-                  },
-                ));
-              },
-              child: const Text('Sign in with Facebook'),
-            ),
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: ref.read(authStateProvider.notifier).logInWithGoogle,
+                child: const Text('Sign in with Google'),
+              ),
+              TextButton(
+                onPressed:
+                    ref.read(authStateProvider.notifier).logInWithFacebook,
+                child: const Text('Sign in with Facebook'),
+              ),
+            ],
+          ),
         ),
       ),
     );
