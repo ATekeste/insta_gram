@@ -20,7 +20,7 @@ class LoadingScreen {
       return;
     }
 
-    _showOverlay(context: context, text: text);
+    _controller = _showOverlay(context: context, text: text);
   }
 
   void hide() {

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_gram/features/auth/screens/login_page.dart';
 import 'package:insta_gram/features/home/home_page.dart';
+import 'package:insta_gram/features/loading/loading_screen.dart';
+import 'package:insta_gram/features/loading/providers/is_loading_provider.dart';
 import 'package:insta_gram/features/state/auth/providers/is_loggedin_provider.dart';
 
 import 'firebase_options.dart';
@@ -35,6 +37,16 @@ class MyApp extends StatelessWidget {
       home: Consumer(
         builder: (context, ref, child) {
           var isLoggedIn = ref.watch(isLoggedInProvider);
+          ref.listen(
+            isLoadingProvider,
+            (_, isLoading) {
+              if (isLoading) {
+                LoadingScreen.instance().show(context: context);
+              } else {
+                LoadingScreen.instance().hide();
+              }
+            },
+          );
           if (isLoggedIn) {
             return const HomePage();
           }
