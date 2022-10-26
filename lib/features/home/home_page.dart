@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:insta_gram/features/common/animations/empty_contents_with_text_animation_view.dart';
 import 'package:insta_gram/features/state/auth/providers/auth_state_provider.dart';
 
 class HomePage extends StatelessWidget {
